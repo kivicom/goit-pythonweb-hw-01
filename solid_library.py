@@ -5,8 +5,12 @@ This module implements an abstract factory pattern for managing books in a libra
 It follows the SOLID principles for better code structure and maintainability.
 """
 
+import logging
 from abc import ABC, abstractmethod
 from typing import List
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 class Book:
     """Represents a book in the library."""
@@ -65,19 +69,21 @@ class LibraryManager:
     def add_book(self, title: str, author: str, year: int) -> None:
         """Adds a book to the library through the manager."""
         self.library.add_book(title, author, year)
+        logging.info("Manager added book: %s by %s (%d)", title, author, year)
 
     def remove_book(self, title: str) -> None:
         """Removes a book from the library through the manager."""
         self.library.remove_book(title)
+        logging.info("Manager removed book: %s", title)
 
     def show_books(self) -> None:
         """Displays all books available in the library."""
         books = self.library.show_books()
         if books:
             for book in books:
-                print(book)
+                logging.info("Displayed book: %s", book)
         else:
-            print("No books available.")
+            logging.info("No books available in the library.")
 
 def main() -> None:
     """Main function to interact with the library system."""
@@ -101,7 +107,7 @@ def main() -> None:
             case "exit":
                 break
             case _:
-                print("Invalid command. Please try again.")
+                logging.warning("Invalid command entered: %s", command)
 
 if __name__ == "__main__":
     main()
